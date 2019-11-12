@@ -48,20 +48,33 @@ def show_camera_image(camera_image, camera_labels, layout, cmap=None):
     plt.grid(False)
     plt.axis('off')
 
+def plot_image(camera_image):
+  """Plot a cmaera image."""
+  plt.figure(figsize=(20, 12))
+  plt.imshow(tf.image.decode_jpeg(camera_image.image))
+  plt.grid("off")
+
 
 
 if __name__ == "__main__":
     FILENAME = './training_0000/segment-1208303279778032257_1360_000_1380_000_with_camera_labels.tfrecord'
     dataset = tf.data.TFRecordDataset(FILENAME, compression_type='')
+    # for data in dataset:
+    #     frame = open_dataset.Frame()
+    #     frame.ParseFromString(bytearray(data.numpy()))
+    #     break
+
+    # plt.figure(figsize=(25, 20))
+    # # plt.show()
+
+    # for index, image in enumerate(frame.images):
+    #     show_camera_image(image, frame.camera_labels, [3, 3, index+1])
     for data in dataset:
         frame = open_dataset.Frame()
         frame.ParseFromString(bytearray(data.numpy()))
-        break
+        plot_image(frame.images[0])
+        plt.show()
 
-    plt.figure(figsize=(25, 20))
     # plt.show()
-
-    for index, image in enumerate(frame.images):
-        show_camera_image(image, frame.camera_labels, [3, 3, index+1])
-
-    plt.show()
+    pdb.set_trace()
+    print("------- end of script --------")
