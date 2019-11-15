@@ -85,7 +85,7 @@ def generate_dataset(path_to_trainings, path_to_data):
                 img_small = img.resize((int(192/2),int(128/2)),resample=Image.LANCZOS)
                 img_small.save(path_to_data + '/' + dirname + '_' + str(record_index) + '_' + str(img_index) + '.jpg')
                 # pdb.set_trace()
-    pdb.set_trace()
+    # pdb.set_trace()
         
         # img_small = tf.image.resize(img, (32,32), method=ResizeMethod.BILINEAR)
         # plot_image(img_small)
@@ -94,5 +94,5 @@ def generate_dataset(path_to_trainings, path_to_data):
 # image_test()
 generate_dataset('/home/mkoren/scratch/Research/cs236project/deep_image_falsification_for_av',
     '/home/mkoren/scratch/Research/cs236project/data/av_96_64')
-pdb.set_trace()
+# pdb.set_trace()
 print("------- end of script --------")
