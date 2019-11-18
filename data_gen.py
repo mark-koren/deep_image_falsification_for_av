@@ -68,14 +68,20 @@ def image_test():
 
 def generate_dataset(path_to_trainings, path_to_data):
     for dirname in os.listdir(path_to_trainings):
-        if 'training_' not in dirname:
+        if 'training_' in dirname:
+            data_type = '/training'
+        elif 'validation_' in dirname:
+            data_type = '/test'
+        else:
             continue
+        print('starting directory: ', dirname)
         path_to_tfrecords = path_to_trainings + '/' + dirname
         onlyfiles = [f for f in listdir(path_to_tfrecords) if isfile(join(path_to_tfrecords, f))] 
 
         for record_index, filename in enumerate(onlyfiles):
             if 'tfrecord' not in filename:
                 continue
+            print('starting file: ', filename)
             dataset = tf.data.TFRecordDataset(path_to_tfrecords + '/' + filename, compression_type='')
             for img_index, data in enumerate(dataset):
                 frame = open_dataset.Frame()
@@ -83,7 +89,7 @@ def generate_dataset(path_to_trainings, path_to_data):
                 img = Image.fromarray(tf.image.decode_jpeg(frame.images[0].image).numpy())
 
                 img_small = img.resize((int(192/2),int(128/2)),resample=Image.LANCZOS)
-                img_small.save(path_to_data + '/' + dirname + '_' + str(record_index) + '_' + str(img_index) + '.jpg')
+                img_small.save(path_to_data + data_type + '/' + dirname + '_' + str(record_index) + '_' + str(img_index) + '.jpg')
                 # pdb.set_trace()
     # pdb.set_trace()
         
